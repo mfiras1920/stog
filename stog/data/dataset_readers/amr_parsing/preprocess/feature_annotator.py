@@ -1,7 +1,7 @@
 import re
+import stanza
 
 from pycorenlp import StanfordCoreNLP
-
 from stog.utils import logging
 
 
@@ -15,14 +15,15 @@ class FeatureAnnotator:
     DashedNumbers = re.compile(r'-*\d+-\d+')
 
     def __init__(self, url, compound_map_file):
-        self.nlp = StanfordCoreNLP(url)
-        self.nlp_properties = {
-            'annotators': "tokenize,ssplit,pos,lemma,ner",
-            "tokenize.options": "splitHyphenated=true,normalizeParentheses=false",
-            "tokenize.whitespace": False,
-            'ssplit.isOneSentence': True,
-            'outputFormat': 'json'
-        }
+        self.nlp = stanza.Pipeline('en')
+        # self.nlp = StanfordCoreNLP(url)
+        # self.nlp_properties = {
+        #     'annotators': "tokenize,ssplit,pos,lemma,ner",
+        #     "tokenize.options": "splitHyphenated=true,normalizeParentheses=false",
+        #     "tokenize.whitespace": False,
+        #     'ssplit.isOneSentence': True,
+        #     'outputFormat': 'json'
+        # }
         self.compound_map = self.load_compound_map(compound_map_file)
 
     @staticmethod
@@ -60,14 +61,14 @@ class FeatureAnnotator:
                 len(tokens), len(value), '\n', list(zip(tokens, value)), tokens, value)
 
     def annotate(self, text):
-        tokens = self.nlp.annotate(text.strip(), self.nlp_properties)['sentences'][0]['tokens']
+        tokens = self.nlp(text).to_dict()[0]
         output = dict(
             tokens=[], lemmas=[], pos_tags=[], ner_tags=[]
         )
         for token in tokens:
-            output['tokens'].append(token['word'])
+            output['tokens'].append(token['text'])
             output['lemmas'].append(token['lemma'])
-            output['pos_tags'].append(token['pos'])
+            output['pos_tags'].append(token['xpos'])
             output['ner_tags'].append(token['ner'])
         return output
 
