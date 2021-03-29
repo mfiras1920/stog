@@ -1,7 +1,6 @@
 import re
 import stanza
 
-from pycorenlp import StanfordCoreNLP
 from stog.utils import logging
 
 

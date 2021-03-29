@@ -1,8 +1,8 @@
 overrides
-torch==0.4.1
+torch
 h5py
 boto3
-pytorch-pretrained-bert==0.6.2
+pytorch-pretrained-bert
 
 # Data processing
 spacy
