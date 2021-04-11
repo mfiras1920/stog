@@ -14,7 +14,7 @@ class FeatureAnnotator:
     DashedNumbers = re.compile(r'-*\d+-\d+')
 
     def __init__(self, url, compound_map_file):
-        self.nlp = stanza.Pipeline('en')
+        self.nlp = stanza.Pipeline('en', tokenize_no_ssplit=True)
         # self.nlp = StanfordCoreNLP(url)
         # self.nlp_properties = {
         #     'annotators': "tokenize,ssplit,pos,lemma,ner",

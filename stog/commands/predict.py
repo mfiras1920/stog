@@ -43,7 +43,7 @@ from typing import List, Iterator, Optional
 import argparse
 import sys
 import json
-
+from tqdm import tqdm
 import torch
 
 from stog.commands.subcommand import Subcommand
@@ -114,7 +114,7 @@ class _PredictManager:
         self._predictor = predictor
         self._input_file = input_file
         if output_file is not None:
-            self._output_file = open(output_file, "w")
+            self._output_file = open(output_file, "w", encoding='UTF-8')
         else:
             self._output_file = None
         self._batch_size = batch_size
@@ -162,7 +162,7 @@ class _PredictManager:
                 if not line.isspace():
                     yield self._predictor.load_line(line)
         else:
-            with open(self._input_file, "r") as file_input:
+            with open(self._input_file, "r", encoding='utf-8') as file_input:
                 for line in file_input:
                     if not line.isspace():
                         yield self._predictor.load_line(line)
@@ -178,11 +178,11 @@ class _PredictManager:
     def run(self) -> None:
         has_reader = self._dataset_reader is not None
         if has_reader:
-            for batch in lazy_groups_of(self._get_instance_data(), self._batch_size):
+            for batch in tqdm(lazy_groups_of(self._get_instance_data(), self._batch_size)):
                 for model_input_instance, result in zip(batch, self._predict_instances(batch)):
                     self._maybe_print_to_console_and_file(result, str(model_input_instance))
         else:
-            for batch_json in lazy_groups_of(self._get_json_data(), self._batch_size):
+            for batch_json in tqdm(lazy_groups_of(self._get_json_data(), self._batch_size)):
                 for model_input_json, result in zip(batch_json, self._predict_json(batch_json)):
                     self._maybe_print_to_console_and_file(result, json.dumps(model_input_json))
 
