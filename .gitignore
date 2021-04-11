@@ -151,3 +151,11 @@ Thumbs.db #thumbnail cache on Windows
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+# Data folder
+data/
+tools/
+venv/
+.env
+*.tar.gz
+*.txt
+*.th

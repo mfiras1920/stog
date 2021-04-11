@@ -11,7 +11,8 @@ nltk
 conllu
 pyyaml
 # pycorenlp==0.3
-stanza
+# stanza
+# gdown
 penman==0.6.2
 editdistance
 word2number
