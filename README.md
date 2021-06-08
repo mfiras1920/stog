@@ -96,7 +96,7 @@ python -u -m stog.commands.predict \
     --archive-file ckpt-amr-2.0 \
     --weights-file ckpt-amr-2.0/best.th \
     --input-file data/AMR/amr_2.0/test.txt.features.preproc \
-    --batch-size 32 \
+    --batch-size 16 \
     --use-dataset-reader \
     --cuda-device 0 \
     --output-file test.pred.txt \

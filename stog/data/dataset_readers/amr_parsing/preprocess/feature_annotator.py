@@ -21,7 +21,8 @@ class FeatureAnnotator:
             "tokenize.options": "splitHyphenated=true,normalizeParentheses=false",
             "tokenize.whitespace": False,
             'ssplit.isOneSentence': True,
-            'outputFormat': 'json'
+            'outputFormat': 'json',
+            'timeout': 30000
         }
         self.compound_map = self.load_compound_map(compound_map_file)
 

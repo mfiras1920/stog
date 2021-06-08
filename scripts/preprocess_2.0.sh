@@ -40,4 +40,4 @@ printf "Renaming preprocessed files...`date`\n"
 mv ${test_data}.input_clean.recategorize.nosense ${test_data}.preproc
 mv ${train_data}.input_clean.recategorize.nosense ${train_data}.preproc
 mv ${dev_data}.input_clean.recategorize.nosense ${dev_data}.preproc
-rm ${data_dir}/*.input_clean*
+# rm ${data_dir}/*.input_clean*

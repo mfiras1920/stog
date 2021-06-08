@@ -37,7 +37,11 @@ class PropbankReader:
         Parse a propbank frame file.
         :param file_path: the frame file path.
         """
-        tree = ET.parse(file_path)
+        try:
+            tree = ET.parse(file_path)
+        except Exception as e:
+            print(file_path)
+            print(e)
         for child in tree.getroot():
             if child.tag == 'predicate':
                 self._add_predicate(child)

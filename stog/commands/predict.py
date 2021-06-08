@@ -114,7 +114,7 @@ class _PredictManager:
         self._predictor = predictor
         self._input_file = input_file
         if output_file is not None:
-            self._output_file = open(output_file, "w")
+            self._output_file = open(output_file, "w", encoding='utf-8')
         else:
             self._output_file = None
         self._batch_size = batch_size
@@ -140,7 +140,7 @@ class _PredictManager:
 
     def _predict_instances(self, batch_data: List[Instance]) -> Iterator[str]:
         if len(batch_data) == 1:
-            results = [self._predictor.predict_instance(batch_data[0])]
+            results = self._predictor.predict_batch_instance(batch_data)
         else:
             results = self._predictor.predict_batch_instance(batch_data)
         for output in results:
@@ -162,7 +162,7 @@ class _PredictManager:
                 if not line.isspace():
                     yield self._predictor.load_line(line)
         else:
-            with open(self._input_file, "r") as file_input:
+            with open(self._input_file, "r",  encoding='utf-8') as file_input:
                 for line in file_input:
                     if not line.isspace():
                         yield self._predictor.load_line(line)
