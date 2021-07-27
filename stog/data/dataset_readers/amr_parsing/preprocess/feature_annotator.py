@@ -1,5 +1,6 @@
 import re
-import stanza
+
+from pycorenlp import StanfordCoreNLP
 
 from stog.utils import logging
 
@@ -60,14 +61,14 @@ class FeatureAnnotator:
                 len(tokens), len(value), '\n', list(zip(tokens, value)), tokens, value)
 
     def annotate(self, text):
-        tokens = self.nlp(text).to_dict()[0]
+        tokens = self.nlp.annotate(text.strip(), self.nlp_properties)['sentences'][0]['tokens']
         output = dict(
             tokens=[], lemmas=[], pos_tags=[], ner_tags=[]
         )
         for token in tokens:
-            output['tokens'].append(token['text'])
+            output['tokens'].append(token['word'])
             output['lemmas'].append(token['lemma'])
-            output['pos_tags'].append(token['xpos'])
+            output['pos_tags'].append(token['pos'])
             output['ner_tags'].append(token['ner'])
         return output
 
