@@ -1,3 +1,4 @@
+from stog.data.fields.metadata_field import MetadataField
 from typing import Dict, MutableMapping
 
 from stog.data.fields.field import DataArray, Field
@@ -85,6 +86,10 @@ class Instance:
             tensors[field_name] = field.as_tensor(padding_lengths[field_name])
         return tensors
 
+    def print_meta(field):
+        if isinstance(field, MetadataField):
+            return field.metadata
+        return field
 
     def __str__(self) -> str:
         base_string = f"Instance with fields:\n"

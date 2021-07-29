@@ -492,6 +492,8 @@ class STOG(Model):
         return char_cnn_output
 
     def decode(self, input_dict):
+        print("\n[INPUT DICTIONARY]")
+        print(input_dict)
         memory_bank = input_dict['encoder_memory_bank']
         mask = input_dict['encoder_mask']
         states = input_dict['encoder_final_states']
@@ -506,13 +508,17 @@ class STOG(Model):
         else:
             generator_outputs = self.beam_search_with_pointer_generator(
                 memory_bank, mask, states, copy_attention_maps, copy_vocabs, tag_luts, invalid_indexes)
-
+        print("\n[GENERATOR OUTPUT]")
+        print(generator_outputs)
         parser_outputs = self.decode_with_graph_parser(
             generator_outputs['decoder_inputs'],
             generator_outputs['decoder_rnn_memory_bank'],
             generator_outputs['coref_indexes'],
             generator_outputs['decoder_mask']
         )
+
+        print("\n[PARSER OUTPUT]")
+        print(parser_outputs)
         #import pdb;pdb.set_trace()
         return dict(
             nodes=generator_outputs['predictions'],

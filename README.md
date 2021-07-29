@@ -32,6 +32,8 @@ source activate stog
 pip install -r requirements.txt
 ```
 
+> Do not install Apex for NVIDIA as it will introduce problems casued by fused_layer_norm_cuda (which is not supported for `pytorch < 1.0.0`>)
+
 ## 2. Data Preparation
 
 Download Artifacts:

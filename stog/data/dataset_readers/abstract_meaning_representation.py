@@ -100,6 +100,8 @@ class AbstractMeaningRepresentationDatasetReader(DatasetReader):
         if list_data['src_token_subword_index'] is not None:
             fields['src_token_subword_index'] = ArrayField(
                 list_data['src_token_subword_index'])
+            print("subword index arrayfield")
+            print(list_data['src_token_subword_index'])
 
         fields["src_must_copy_tags"] = SequenceLabelField(
             labels=list_data["src_must_copy_tags"],

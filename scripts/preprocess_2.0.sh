@@ -22,9 +22,10 @@ printf "Done.`date`\n\n"
 printf "Recategorizing subgraphs...`date`\n"
 python -u -m stog.data.dataset_readers.amr_parsing.preprocess.recategorizer \
     --dump_dir ${util_dir} \
-    --amr_files ${dev_data}.input_clean
+    --amr_files ${train_data}.input_clean ${dev_data}.input_clean
+    #--amr_files ${dev_data}.input_clean
 printf "Anonymizing subgraph    \n"
-    # --amr_files ${train_data}.input_clean ${dev_data}.input_clean
+    
 python -u -m stog.data.dataset_readers.amr_parsing.preprocess.text_anonymizor \
     --amr_file ${test_data}.input_clean \
     --util_dir ${util_dir}
@@ -33,15 +34,16 @@ printf "Done.`date`\n\n"
 printf "Removing senses...`date`\n"
 python -u -m stog.data.dataset_readers.amr_parsing.preprocess.sense_remover \
     --util_dir ${util_dir} \
-    --amr_files ${dev_data}.input_clean.recategorize \
+    --amr_files ${train_data}.input_clean.recategorize \
+    ${dev_data}.input_clean.recategorize \
     ${test_data}.input_clean.recategorize
-    # --amr_files ${train_data}.input_clean.recategorize \
-    # ${dev_data}.input_clean.recategorize \
-    # ${test_data}.input_clean.recategorize
+    #--amr_files ${dev_data}.input_clean.recategorize \
+    #${test_data}.input_clean.recategorize
+    
 printf "Done.`date`\n\n"
 
 printf "Renaming preprocessed files...`date`\n"
 mv ${test_data}.input_clean.recategorize.nosense ${test_data}.preproc
-# mv ${train_data}.input_clean.recategorize.nosense ${train_data}.preproc
+mv ${train_data}.input_clean.recategorize.nosense ${train_data}.preproc
 mv ${dev_data}.input_clean.recategorize.nosense ${dev_data}.preproc
 # rm ${data_dir}/*.input_clean*

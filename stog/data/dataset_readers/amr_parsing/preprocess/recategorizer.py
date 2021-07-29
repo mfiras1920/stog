@@ -226,9 +226,16 @@ class Recategorizer:
                 backup_ner_type = self._map_name_node_type(amr_type)
                 entity = Entity.get_aligned_entity(
                     node, amr, backup_ner_type, self.entity_type_cooccur_counter)
-                if len(entity.span):
-                    self.recat_named_entity_count += 1
-                entities.append(entity)
+                try:
+                    if len(entity.span):
+                        self.recat_named_entity_count += 1
+                    entities.append(entity)
+                except Exception as e:
+                    print(node)
+                    print(node.attributes)
+                    continue
+                    # raise(e)
+
         entities, removed_entities = resolve_conflict_entities(entities)
         if not self.build_utils:
             type_counter = Entity.collapse_name_nodes(entities, amr)
@@ -338,6 +345,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    print(args.build_utils)
     recategorizer = Recategorizer(
         train_data=args.amr_train_file,
         build_utils=args.build_utils,
