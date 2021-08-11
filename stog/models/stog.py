@@ -492,8 +492,8 @@ class STOG(Model):
         return char_cnn_output
 
     def decode(self, input_dict):
-        print("\n[INPUT DICTIONARY]")
-        print(input_dict)
+        # print("\n[INPUT DICTIONARY]")
+        # print(input_dict)
         memory_bank = input_dict['encoder_memory_bank']
         mask = input_dict['encoder_mask']
         states = input_dict['encoder_final_states']
@@ -508,8 +508,8 @@ class STOG(Model):
         else:
             generator_outputs = self.beam_search_with_pointer_generator(
                 memory_bank, mask, states, copy_attention_maps, copy_vocabs, tag_luts, invalid_indexes)
-        print("\n[GENERATOR OUTPUT]")
-        print(generator_outputs)
+        # print("\n[GENERATOR OUTPUT]")
+        # print(generator_outputs)
         parser_outputs = self.decode_with_graph_parser(
             generator_outputs['decoder_inputs'],
             generator_outputs['decoder_rnn_memory_bank'],
@@ -517,8 +517,8 @@ class STOG(Model):
             generator_outputs['decoder_mask']
         )
 
-        print("\n[PARSER OUTPUT]")
-        print(parser_outputs)
+        # print("\n[PARSER OUTPUT]")
+        # print(parser_outputs)
         #import pdb;pdb.set_trace()
         return dict(
             nodes=generator_outputs['predictions'],
@@ -574,7 +574,7 @@ class STOG(Model):
             assert len(input_size) >= 2
             assert input_size[0] == indices_size[0]
             assert input_size[1] == indices_size[1]
-
+            indices = indices.to(torch.int32)
             return input.view(
                 [input_size[0] * input_size[1]] + input_size[2:]
             ).index_select(
@@ -592,7 +592,7 @@ class STOG(Model):
             assert len(indices_size) == 2
             assert len(input_size) > 1
             assert input_size[0] == indices_size[0] * indices_size[1]
-
+            indices = indices.to(torch.int32)
             return input.index_select(
                 0,
                 (
@@ -816,7 +816,7 @@ class STOG(Model):
             if eos_beam_indices_offset.numel() > 0:
                 for index in eos_beam_indices_offset.tolist():
                     eos_batch_idx = int(index / beam_size)
-                    eos_beam_idx = index % beam_size
+                    eos_beam_idx = int(index % beam_size)
                     hypo_score = float(new_hypo_scores[eos_batch_idx, eos_beam_idx]) / (step + 1)
                     if step > 0 and hypo_score > bucket_max_score[eos_batch_idx] and eos_beam_idx == 0:
                         bucket_max_score[eos_batch_idx] = hypo_score
@@ -899,7 +899,7 @@ class STOG(Model):
             variables["corefs"] = corefs
 
             variables["states"] = [
-                state.index_select(1, new_order * beam_size + beam_indices.view(-1)) for state in states]
+                state.index_select(1, (new_order * beam_size + beam_indices.view(-1)).to(torch.int32)) for state in states]
             variables["input_feed"] = beam_select_1d(input_feed, beam_indices)
             variables["coref_inputs"] = list(
                 beam_select_1d(
@@ -1113,7 +1113,7 @@ class STOG(Model):
         coref_index = (predictions - vocab_size - copy_vocab_size)
         # Fill the place where copy didn't happen with the current step,
         # which means that the node doesn't refer to any precedent, it refers to itself.
-        coref_index.masked_fill_(1 - coref_mask, step + 1)
+        coref_index.masked_fill_(~coref_mask, step + 1)
 
         coref_attention_maps[batch_index, step_index, coref_index] = 1
 
@@ -1155,7 +1155,7 @@ class STOG(Model):
         coref_vocab_maps[batch_index, step_index + 1] = next_input
 
         # 4. Get the coref-resolved predictions.
-        coref_resolved_preds = coref_predictions * coref_mask.long() + predictions * (1 - coref_mask).long()
+        coref_resolved_preds = coref_predictions * coref_mask.long() + predictions * (~coref_mask).long()
 
         # 5. Get the mask for the current generation.
         has_eos = torch.zeros_like(gen_mask)

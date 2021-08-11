@@ -85,7 +85,7 @@ class STOGPredictor(Predictor):
         amr = output['gold_amr']
         gold_graph = amr.graph
         amr.graph = pred_graph
-        print(output)
+        # print(output)
         string_to_print = str(amr).replace(
             "# ::save-date", "# ::tgt_pred {}\n# ::tgt_ref {}\n# ::save-date".format(
                 " ".join(output["nodes"]),

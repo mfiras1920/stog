@@ -95,8 +95,8 @@ class GlobalAttention(torch.nn.Module):
             align = self.attention(source, memory_bank)
 
         if mask is not None:
-            mask = mask.byte().unsqueeze(1)  # Make it broadcastable.
-            align.masked_fill_(1 - mask, -float('inf'))
+            mask = mask.bool().unsqueeze(1)  # Make it broadcastable.
+            align.masked_fill_(~mask, 0)
 
         align_vectors = F.softmax(align, 2)
 

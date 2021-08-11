@@ -68,20 +68,20 @@ class AttachmentScores(Metric):
         # gold labels which we should ignore.
         for label in self._ignore_classes:
             label_mask = gold_labels.eq(label)
-            mask = mask * (1 - label_mask).long()
+            mask = mask * (~label_mask).long()
 
         correct_indices = predicted_indices.eq(gold_indices).long() * mask
-        unlabeled_exact_match = (correct_indices + (1 - mask)).prod(dim=-1)
+        unlabeled_exact_match = (correct_indices + (~mask)).prod(dim=-1)
         correct_labels = predicted_labels.eq(gold_labels).long() * mask
         correct_labels_and_indices = correct_indices * correct_labels
-        labeled_exact_match = (correct_labels_and_indices + (1 - mask)).prod(dim=-1)
+        labeled_exact_match = (correct_labels_and_indices + (~mask)).prod(dim=-1)
 
         self._unlabeled_correct += correct_indices.sum()
         self._exact_unlabeled_correct += unlabeled_exact_match.sum()
         self._labeled_correct += correct_labels_and_indices.sum()
         self._exact_labeled_correct += labeled_exact_match.sum()
         self._total_sentences += correct_indices.size(0)
-        self._total_words += correct_indices.numel() - (1 - mask).sum()
+        self._total_words += correct_indices.numel() - (~mask).sum()
 
         self._total_loss += edge_node_loss + edge_label_loss
         self._total_edge_node_loss += edge_node_loss

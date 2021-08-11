@@ -189,6 +189,10 @@ class AugmentedLstm(torch.nn.Module):
 
             # Only do dropout if the dropout prob is > 0.0 and we are in training mode.
             if dropout_mask is not None and self.training:
+                # print(f"timestep_output cuda: {timestep_output.is_cuda},\ndropout_mask cuda: {dropout_mask.is_cuda}")
+                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                timestep_output = timestep_output.to(device)
+                dropout_mask = dropout_mask.to(device)
                 timestep_output = timestep_output * dropout_mask[0: current_length_index + 1]
 
             # We've been doing computation with less than the full batch, so here we create a new

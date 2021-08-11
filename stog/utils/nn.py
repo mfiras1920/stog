@@ -111,6 +111,9 @@ def sort_batch_by_length(tensor: torch.Tensor, sequence_lengths: torch.Tensor):
     # This is the equivalent of zipping with index, sorting by the original
     # sequence lengths and returning the now sorted indices.
     _, reverse_mapping = permutation_index.sort(0, descending=False)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    index_range = index_range.to(device)
+    # print(f"reverse mapping cuda: {reverse_mapping.is_cuda},\nindex_range cuda: {index_range.is_cuda}")
     restoration_indices = index_range.index_select(0, reverse_mapping)
     return sorted_tensor, sorted_sequence_lengths, restoration_indices, permutation_index
 
@@ -560,7 +563,7 @@ def replace_masked_values(tensor: torch.Tensor, mask: torch.Tensor, replace_with
     """
     if tensor.dim() != mask.dim():
         raise ConfigurationError("tensor.dim() (%d) != mask.dim() (%d)" % (tensor.dim(), mask.dim()))
-    return tensor.masked_fill((1 - mask).byte(), replace_with)
+    return tensor.masked_fill((~mask).byte(), replace_with)
 
 
 def tensors_equal(tensor1: torch.Tensor, tensor2: torch.Tensor, tolerance: float = 1e-12) -> bool:

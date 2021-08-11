@@ -255,7 +255,7 @@ class _EncoderBase(torch.nn.Module):
                                                            used_new_rows_mask):
                     # zero out all rows in the previous state
                     # which _were_ used in the current state.
-                    masked_old_state = old_state[:, :new_state_batch_size, :] * (1 - used_mask)
+                    masked_old_state = old_state[:, :new_state_batch_size, :] * (~used_mask)
                     # The old state is larger, so update the relevant parts of it.
                     old_state[:, :new_state_batch_size, :] = new_state + masked_old_state
                     new_states.append(old_state.detach())
@@ -267,7 +267,7 @@ class _EncoderBase(torch.nn.Module):
                                                            new_unsorted_states,
                                                            used_new_rows_mask):
                     # zero out all rows which _were_ used in the current state.
-                    masked_old_state = old_state * (1 - used_mask)
+                    masked_old_state = old_state * (~used_mask)
                     # The old state is larger, so update the relevant parts of it.
                     new_state += masked_old_state
                     new_states.append(new_state.detach())

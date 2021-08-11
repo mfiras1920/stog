@@ -345,7 +345,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    print(args.build_utils)
+    # print(args.build_utils)
     recategorizer = Recategorizer(
         train_data=args.amr_train_file,
         build_utils=args.build_utils,
