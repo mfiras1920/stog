@@ -2,7 +2,8 @@
 
 # Device-sensitive parameters
 amr_data_dir: &amr_data_dir data/AMR/amr_id_2.0
-glove: &glove data/glove/glove.840B.300d.zip
+# glove: &glove data/glove/glove.840B.300d.zip
+glove: &glove data/glove/glove.4B.300d.zip
 
 
 # Model parameters
@@ -15,7 +16,7 @@ model:
   use_bert: True
 
   bert:
-    pretrained_model_dir: data/indobert-base-uncased
+    pretrained_model_dir: data/bert-base-cased
     hidden_size: 768
 
   encoder_token_embedding:
@@ -130,7 +131,7 @@ model:
     batch_size: 32
     eval_script: scripts/eval_test.sh
     smatch_dir: tools/amr-evaluation-tool-enhanced
-    word_splitter: &word_splitter data/indobert-base-uncased/vocab.txt
+    word_splitter: &word_splitter data/bert-base-cased/vocab.txt
 
 
 # Vocabulary
@@ -169,7 +170,7 @@ environment:
   seed: 1
   numpy_seed: 1
   torch_seed: 1
-  serialization_dir: &serialization_dir ckpt-amr-id-2.0
+  serialization_dir: &serialization_dir ckpt-amr-id-2.0-gpu
   file_friendly_logging: False
   gpu: True
   cuda_device: 0

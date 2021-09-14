@@ -21,8 +21,7 @@ If you find our code is useful, please cite:
 
 ## 1. Environment Setup
 
-
-The code has been tested on **Python 3.6** and **PyTorch 0.4.1**. 
+The code has been tested on **Python 3.6** and **PyTorch 0.4.1**. And requires python 2.7 for evaluation (aliased as python2)
 All other dependencies are listed in [requirements.txt](requirements.txt).
 
 Via conda:
@@ -95,9 +94,9 @@ python -u -m stog.commands.train params/stog_amr_2.0.yaml
 
 ```bash
 python -u -m stog.commands.predict \
-    --archive-file ckpt-amr-2.0 \
-    --weights-file ckpt-amr-2.0/best.th \
-    --input-file data/AMR/amr_2.0/test.txt.features.preproc \
+    --archive-file ckpt-amr-id-2.0-gpu \
+    --weights-file ckpt-amr-id-2.0-gpu/best.th \
+    --input-file data/AMR/amr_id_2.0/test.txt.features.preproc \
     --batch-size 16 \
     --use-dataset-reader \
     --cuda-device 0 \
@@ -115,7 +114,7 @@ python -u -m stog.commands.predict \
 ## 8. Evaluation
 Note that the evaluation tool works on `python2`, so please make sure `python2` is visible in your `$PATH`.
 ```bash
-./scripts/compute_smatch.sh test.pred.txt data/AMR/amr_2.0/test.txt
+./scripts/compute_smatch.sh test.pred.txt data/AMR/amr_id_2.0/test.txt
 ```
 
 ## Pre-trained Models

@@ -173,7 +173,12 @@ Thumbs.db
 /data/
 tools/
 venv/
+ckpt*/
+temp/
 .env
+example*
 *.tar.gz
 *.txt
 *.th
+*.tmp
+*.zip
