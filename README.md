@@ -126,7 +126,7 @@ and [ckpt-amr-1.0.tar.gz](https://www.cs.jhu.edu/~s.zhang/data/AMR/ckpt-amr-1.0.
 To use them for prediction, simply download & unzip them, and then run **Step 6-8**.
 
 ### Indonesian Language
-For models trained on Indonesian Language, you could download the pretrained model [here](https://storage.googleapis.com/riset_amr/stog_id/20210908-82-85/ckpt-amr-id-2.0-gpu.zip). With the requirement of having the following models:
+For models trained on Indonesian Language, you could download the pretrained model [here](https://storage.googleapis.com/riset_amr/stog_id/20210901-82-85/ckpt-amr-id-2.0-gpu.zip). With the requirement of having the following models:
 - IndoBert
 - IndoGlove 4B
 - 

@@ -25,7 +25,7 @@ mkdir -p data/glove
 curl -L -o data/glove/glove.840B.300d.zip \
     http://nlp.stanford.edu/data/wordvecs/glove.840B.300d.zip
 curl -L -o data/glove/glove.id.4B.300d.zip \
-    hhttps://storage.googleapis.com/riset_amr/pretrained_model/word_embedding/glove-indo4B/glove.id.4B.300d.zip
+    https://storage.googleapis.com/riset_amr/pretrained_model/word_embedding/glove-indo4B/glove.id.4B.300d.zip
 
 echo "Downloading evaluation tools."
 mkdir -p tools
