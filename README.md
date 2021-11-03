@@ -21,13 +21,15 @@ If you find our code is useful, please cite:
 
 ## 1. Environment Setup
 
-The code has been tested on **Python 3.6** and **PyTorch 0.4.1**. And requires python 2.7 for evaluation (aliased as python2)
+The code has been tested on **Python 3.6** and **PyTorch 1.9**. And requires python 2.7 for evaluation (aliased as python2)
 All other dependencies are listed in [requirements.txt](requirements.txt).
 
 Via conda:
 ```bash
 conda create -n stog python=3.6
 source activate stog
+# Install pytorch first
+conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c conda-forge
 pip install -r requirements.txt
 ```
 
@@ -122,6 +124,12 @@ Here are pre-trained models:
 [ckpt-amr-2.0.tar.gz](https://www.cs.jhu.edu/~s.zhang/data/AMR/ckpt-amr-2.0.tar.gz) 
 and [ckpt-amr-1.0.tar.gz](https://www.cs.jhu.edu/~s.zhang/data/AMR/ckpt-amr-1.0.tar.gz).
 To use them for prediction, simply download & unzip them, and then run **Step 6-8**.
+
+### Indonesian Language
+For models trained on Indonesian Language, you could download the pretrained model [here](https://storage.googleapis.com/riset_amr/stog_id/20210908-82-85/ckpt-amr-id-2.0-gpu.zip). With the requirement of having the following models:
+- IndoBert
+- IndoGlove 4B
+- 
 
 In case that you only need the pre-trained model prediction (i.e., `test.pred.txt`), you can find it in the download.
 

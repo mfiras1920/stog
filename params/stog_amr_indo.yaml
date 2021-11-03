@@ -3,7 +3,7 @@
 # Device-sensitive parameters
 amr_data_dir: &amr_data_dir data/AMR/amr_id_2.0
 # glove: &glove data/glove/glove.840B.300d.zip
-glove: &glove data/glove/glove.4B.300d.zip
+glove: &glove data/glove/glove.id.4B.300d.zip
 
 
 # Model parameters
@@ -16,7 +16,7 @@ model:
   use_bert: True
 
   bert:
-    pretrained_model_dir: data/bert-base-cased
+    pretrained_model_dir: data/indobert-base-uncased
     hidden_size: 768
 
   encoder_token_embedding:
