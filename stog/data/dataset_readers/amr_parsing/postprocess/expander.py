@@ -140,20 +140,20 @@ class Expander:
         graph = amr.graph
         ops = self.get_ops(saved_dict)
         old = node.instance
-        graph.replace_node_attribute(node, 'instance', old, 'name')
-        for i, op in enumerate(ops, 1):
-            graph.add_node_attribute(node, 'op{}'.format(i), op)
+        graph.replace_node_attribute(node, 'instance', old, saved_dict['span'])
+        # for i, op in enumerate(ops, 1):
+        #     graph.add_node_attribute(node, 'op{}'.format(i), op)
 
     def expand_date_node(self, node, saved_dict, amr):
         graph = amr.graph
         attrs = saved_dict['attrs']
-        graph.replace_node_attribute(node, 'instance', node.instance, 'date-entity')
-        for key, value in attrs.items():
-            graph.add_node_attribute(node, key, value)
-        edges = saved_dict['edges']
-        for label, instance in edges.items():
-            target = graph.add_node(instance)
-            graph.add_edge(node, target, label)
+        graph.replace_node_attribute(node, 'instance', node.instance, saved_dict['span'])
+        # for key, value in attrs.items():
+        #     graph.add_node_attribute(node, key, value)
+        # edges = saved_dict['edges']
+        # for label, instance in edges.items():
+        #     target = graph.add_node(instance)
+        #     graph.add_edge(node, target, label)
 
     def expand_score_node(self, node, saved_dict, amr):
         graph = amr.graph
@@ -169,7 +169,7 @@ class Expander:
     def _load_utils(self):
         with open(os.path.join(self.util_dir, 'name_op_cooccur_counter.json'), encoding='utf-8') as f:
             self.name_ops_map = json.load(f)
-            self.name_ops_map['u.n.'].pop('United Nations')
+            # self.name_ops_map['u.n.'].pop('United Nations')
 
         # The country list is downloaded from github:
         # https://github.com/Dinu/country-nationality-list

@@ -1,11 +1,16 @@
+@echo off
+
+FOR /F "delims=." %%i in ("%3") do SET name=%%~nxi
+
+
 python -u -m stog.commands.predict ^
-    --archive-file ckpt-amr-id-2.0-gpu ^
-    --weights-file ckpt-amr-id-2.0-gpu/best.th ^
-    --input-file data\AMR\amr_id_2.0\test.txt.features.preproc ^
-    --batch-size 1 ^
+    --archive-file %1 ^
+    --weights-file %1/best.th ^
+    --input-file %2/%3 ^
+    --batch-size 16 ^
     --use-dataset-reader ^
     --cuda-device 0 ^
-    --output-file test.pred.txt ^
+    --output-file %1/%name%.pred.txt ^
     --silent ^
     --beam-size 5 ^
     --predictor STOG

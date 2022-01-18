@@ -1,9 +1,17 @@
 # Parameters of the Seq2Seq Model
 
 # Device-sensitive parameters
-amr_data_dir: &amr_data_dir data/AMR/amr_2.0
+amr_data_dir: &amr_data_dir data/AMR/amr_id_2.0
 glove: &glove data/glove/glove.840B.300d.zip
-
+pretrained_model_dir: &pretrained_model_dir data/bert-large-multilingual-cased
+bert_hidden_size: &bert_hidden_size 1024 #base: 768, large:1024
+word_splitter: &word_splitter data/bert-large-multilingual-cased/vocab.txt
+serialization_dir: &serialization_dir ckpt-amr-id-2.0-large-multi
+dev_data: &dev_data data/AMR/amr_id_2.0/dev.txt.features.preproc
+eval_script: &eval_script scripts\eval_test.bat
+train_batch_size: &train_batch_size 64
+dev_test_batch_size: &dev_test_batch_size 32
+epochs: &epoch 120
 
 # Model parameters
 model:
@@ -15,8 +23,8 @@ model:
   use_bert: True
 
   bert:
-    pretrained_model_dir: data/bert-base-cased
-    hidden_size: 768
+    pretrained_model_dir: *pretrained_model_dir
+    hidden_size: *bert_hidden_size
 
   encoder_token_embedding:
     num_embeddings:
@@ -125,12 +133,12 @@ model:
     dropout: 0.33
 
   mimick_test:
-    data: data/AMR/amr_2.0/dev.txt.features.preproc
+    data: *dev_data
     prediction: dev.pred.txt
-    batch_size: 32
-    eval_script: scripts/eval_test.sh
+    batch_size: *dev_test_batch_size
+    eval_script: *eval_script
     smatch_dir: tools/amr-evaluation-tool-enhanced
-    word_splitter: &word_splitter data/bert-base-cased/bert-base-cased-vocab.txt
+    word_splitter: *word_splitter
 
 
 # Vocabulary
@@ -153,8 +161,8 @@ data:
   data_type: AMR
   batch_first: True
   iterator:
-    train_batch_size: &train_batch_size 64
-    test_batch_size: 32
+    train_batch_size: *train_batch_size
+    test_batch_size: *dev_test_batch_size
     iter_type: BucketIterator
     sorting_keys:  # (field, padding type)
       - [tgt_tokens, num_tokens]
@@ -169,7 +177,7 @@ environment:
   seed: 1
   numpy_seed: 1
   torch_seed: 1
-  serialization_dir: &serialization_dir ckpt-amr-2.0
+  serialization_dir: *serialization_dir
   file_friendly_logging: False
   gpu: True
   cuda_device: 0
@@ -182,7 +190,7 @@ trainer:
   max_grad_norm: 5.0
   batch_size: *train_batch_size
   shuffle: True
-  epochs: 120
+  epochs: *epoch
   dev_metric: +F1
   serialization_dir: *serialization_dir
   model_save_interval:

@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 ## 2. Data Preparation
 
-Download Artifacts:
+Before downloading artifact, consider choosing which language model to use and data version to use to reduce the download time, after that run the script.
 ```bash
 ./scripts/download_artifacts.sh
 ```
@@ -116,7 +116,7 @@ python -u -m stog.commands.predict \
 ## 8. Evaluation
 Note that the evaluation tool works on `python2`, so please make sure `python2` is visible in your `$PATH`.
 ```bash
-./scripts/compute_smatch.sh test.pred.txt data/AMR/amr_id_2.0/test.txt
+./scripts/compute_smatch.sh ckpt-amr-id-2.0-large-p1-4B/test.pred.txt data/AMR/amr_id_2.0/test.txt ckpt-amr-id-2.0-large-p1-4B/
 ```
 
 ## Pre-trained Models

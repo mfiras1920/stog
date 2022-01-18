@@ -1,5 +1,5 @@
 import torch
-
+import json
 from stog.modules.seq2seq_encoders import Seq2SeqBertEncoder
 
 from stog.models.model import Model
@@ -503,13 +503,21 @@ class STOG(Model):
         invalid_indexes = input_dict['invalid_indexes']
 
         if self.beam_size == 0:
+            # logger.info("Using Beam Search")
             generator_outputs = self.decode_with_pointer_generator(
                 memory_bank, mask, states, copy_attention_maps, copy_vocabs, tag_luts, invalid_indexes)
         else:
+            # logger.info("Using Beam Search")
             generator_outputs = self.beam_search_with_pointer_generator(
                 memory_bank, mask, states, copy_attention_maps, copy_vocabs, tag_luts, invalid_indexes)
-        # print("\n[GENERATOR OUTPUT]")
-        # print(generator_outputs)
+        # logger.info("\n[GENERATOR OUTPUT]")
+        # logger.info(json.dumps(
+            # dict(
+            #     predictions=generator_outputs["predictions"].tolist(),
+            #     scores=generator_outputs["scores"].tolist(),
+            # ), indent=2))
+        
+
         parser_outputs = self.decode_with_graph_parser(
             generator_outputs['decoder_inputs'],
             generator_outputs['decoder_rnn_memory_bank'],
@@ -517,8 +525,12 @@ class STOG(Model):
             generator_outputs['decoder_mask']
         )
 
-        # print("\n[PARSER OUTPUT]")
-        # print(parser_outputs)
+        # logger.info("\n[PARSER OUTPUT]")
+        # logger.info(json.dumps(
+            # dict(
+            #     edge_labels=parser_outputs["edge_labels"].tolist(),
+            #     edge_heads=parser_outputs["edge_heads"].tolist(),
+            # ), indent=2))
         #import pdb;pdb.set_trace()
         return dict(
             nodes=generator_outputs['predictions'],
@@ -1188,6 +1200,13 @@ class STOG(Model):
             memory_bank, None, None, corefs, mask)
         (edge_node_h, edge_node_m), (edge_label_h, edge_label_m) = self.graph_decoder.encode(memory_bank)
         edge_node_scores = self.graph_decoder._get_edge_node_scores(edge_node_h, edge_node_m, mask.float())
+        # logger.info(json.dumps(dict(
+        #     edge_label_h=edge_label_h.tolist(),
+        #     edge_label_m=edge_label_m.tolist(),
+        #     edge_node_scores=edge_node_scores.tolist(),
+        #     corefs=corefs.tolist(),
+        #     mask=mask.tolist()
+        # ), indent=2))
         edge_heads, edge_labels = self.graph_decoder.mst_decode(
             edge_label_h, edge_label_m, edge_node_scores, corefs, mask)
         return dict(
