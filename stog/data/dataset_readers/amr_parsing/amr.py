@@ -370,7 +370,11 @@ class AMRGraph(penman.Graph):
         return node
 
     def remove_node(self, node):
-        self._G.remove_node(node)
+        try:
+            self._G.remove_node(node)
+        except Exception as e:
+            print(self._G)
+            raise(e)
         triples = [t for t in self._triples if t.source != node.identifier]
         self._update_penman_graph(triples)
 
@@ -602,7 +606,13 @@ class AMRGraph(penman.Graph):
         src_copy_vocab = SourceCopyVocabulary(src_tokens)
         src_copy_indices = src_copy_vocab.index_sequence(tgt_tokens)
         src_copy_map = src_copy_vocab.get_copy_map(src_tokens)
-        tgt_pos_tags, pos_tag_lut = add_source_side_tags_to_target_side(src_tokens, src_pos_tags)
+        try:
+            tgt_pos_tags, pos_tag_lut = add_source_side_tags_to_target_side(src_tokens, src_pos_tags)
+        except Exception as e:
+            print(amr.graph)
+            print(src_tokens)
+            print(src_pos_tags)
+            raise e
 
         if bert_tokenizer is not None:
             src_token_ids, src_token_subword_index = bert_tokenizer.tokenize(src_tokens, True)

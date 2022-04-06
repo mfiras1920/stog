@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 ## 2. Data Preparation
 
-Before downloading artifact, consider choosing which language model to use and data version to use to reduce the download time, after that run the script.
+Before downloading artifact, consider choosing which language model to use and data version to use to reduce the download time, after that run the script. If you want to experiments, it is advisable to uncomment all of the lines in `scripts/download_artifacts.sh` to download all artifacts and models. But if you have models in mind, you can uncomment specific part of the script.
 ```bash
 ./scripts/download_artifacts.sh
 ```
@@ -72,6 +72,10 @@ We use [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/index.html) (ver
 
 First, start a CoreNLP server following the [API documentation](https://stanfordnlp.github.io/CoreNLP/corenlp-server.html#api-documentation).
 
+or you can also use docker to start a corenlp server using this script:
+```bash
+docker run -p 9000:9000 banditelol/corenlp
+```
 
 Then, annotate AMR sentences:
 ```bash
@@ -80,6 +84,7 @@ Then, annotate AMR sentences:
 
 ## 4. Data Preprocessing
 
+Make sure the variables inside this script matches with what you have in your machine.
 ```bash
 ./scripts/preprocess_2.0.sh
 ```
@@ -95,14 +100,27 @@ python -u -m stog.commands.train params/stog_amr_2.0.yaml
 ## 6. Prediction
 
 ```bash
+# python -u -m stog.commands.predict \
+#     --archive-file [CHECKPOINT_FOLDER_] \
+#     --weights-file [CHECKPOINT_FOLDER_]/best.th \
+#     --input-file [PREPROCESSED_FILE] \
+#     --batch-size 16 \
+#     --use-dataset-reader \
+#     --cuda-device 0 \
+#     --output-file [CHECKPOINT_FOLDER]/test_id_trans.pred.txt \
+#     --silent \
+#     --beam-size 5 \
+#     --predictor STOG
+# For example:
+
 python -u -m stog.commands.predict \
-    --archive-file ckpt-amr-id-2.0-gpu \
-    --weights-file ckpt-amr-id-2.0-gpu/best.th \
-    --input-file data/AMR/amr_id_2.0/test.txt.features.preproc \
+    --archive-file ckpt-amr-2.0 \
+    --weights-file ckpt-amr-2.0/best.th \
+    --input-file data/AMR/cl-amr-en_2.0/test_id_trans.txt.features.preproc \
     --batch-size 16 \
     --use-dataset-reader \
     --cuda-device 0 \
-    --output-file test.pred.txt \
+    --output-file ckpt-amr-2.0/test_id_trans.pred.txt \
     --silent \
     --beam-size 5 \
     --predictor STOG

@@ -391,7 +391,11 @@ class STOG(Model):
         # [batch, num_tokens, embedding_size]
         encoder_inputs = []
         if self.use_bert:
-            bert_mask = bert_tokens.ne(0)
+            try:
+                bert_mask = bert_tokens.ne(0)
+            except Exception as e:
+                print(bert_tokens)
+                raise e
             bert_embeddings, _ = self.bert_encoder(
                 bert_tokens,
                 attention_mask=bert_mask,

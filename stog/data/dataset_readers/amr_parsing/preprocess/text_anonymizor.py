@@ -25,6 +25,7 @@ def is_anonym_type(index: int, amr: AMR, text_map: Dict, types: List) -> bool:
         return lemma in text_map and text_map[lemma]['ner'] in types
     except Exception as e:
         print(index, text_map[lemma], lemma)
+        print(amr)
         raise e
 
 

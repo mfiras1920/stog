@@ -238,7 +238,12 @@ class Recategorizer:
 
         entities, removed_entities = resolve_conflict_entities(entities)
         if not self.build_utils:
-            type_counter = Entity.collapse_name_nodes(entities, amr)
+            try:
+                type_counter = Entity.collapse_name_nodes(entities, amr)
+            except Exception as e:
+                print(entities)
+                # print(amr)
+                raise (e)
             for entity in removed_entities:
                 amr_type = amr.graph.get_name_node_type(entity.node)
                 backup_ner_type = self._map_name_node_type(amr_type)

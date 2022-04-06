@@ -186,7 +186,12 @@ class Trainer:
             self._num_trained_batches += 1
 
             self._optimizer.zero_grad()
-            loss = self._batch_loss(batch, for_training=True)
+            try:
+                loss = self._batch_loss(batch, for_training=True)
+            except Exception as e:
+                print(batch)
+                raise e
+            
             loss.backward()
             training_loss += loss.item()
             self._optimizer.step()
