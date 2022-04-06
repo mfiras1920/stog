@@ -91,9 +91,10 @@ Make sure the variables inside this script matches with what you have in your ma
 
 ## 5. Training
 
-Make sure that you have at least two GeForce GTX TITAN X GPUs to train the full model.
+Make sure that you have at least two GeForce GTX TITAN X GPUs to train the full model using AMR 2.0. But if you're training for AMR ID, GT 950M with 4GB of memory can do decent works. To train with specific configuration, you can look inside `params/` folder to see the kind of configurations possible.
 
 ```bash
+# python -u -m stog.commands.train params/[PARAMS_FILE]
 python -u -m stog.commands.train params/stog_amr_2.0.yaml
 ```
 
