@@ -381,7 +381,7 @@ def join_time_description(amr):
                     except:
                         continue
                     span = list(range(i - 1, i + 1))
-                    joined_tokens = ''.join([x, y.lower()])
+                    joined_tokens = ''.join([str(x), y.lower()])
                     pos = 'CD'
                     ner = 'TIME'
                     break
