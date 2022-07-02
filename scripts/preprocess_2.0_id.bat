@@ -21,8 +21,7 @@ echo "Recategorizing subgraphs...`date`\n"
 python -u -m stog.data.dataset_readers.amr_parsing.preprocess.recategorizer ^
     --amr_train_file %train_data% ^
     --dump_dir %util_dir% ^
-    --amr_files %train_data% %dev_data% ^
-    --build_utils
+    --amr_files %train_data% %dev_data% 
 
 echo "Anonymizing subgraph    \n"
 python -u -m stog.data.dataset_readers.amr_parsing.preprocess.text_anonymizor ^

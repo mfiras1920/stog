@@ -27,14 +27,14 @@ set -e
 #     https://s3.amazonaws.com/models.huggingface.co/bert/bert-large-cased-vocab.txt
 # rm bert-large-cased.tar.gz
 
-echo "Downloading IndoBert Base Uncased."
-mkdir -p data/indobert-base-uncased
-curl -L -o data/indobert-base-uncased/pytorch_model.bin \
-    https://huggingface.co/indobenchmark/indobert-base-p2/resolve/main/pytorch_model.bin 
-curl -L -o data/indobert-base-uncased/bert_config.json \
-    https://huggingface.co/indobenchmark/indobert-base-p2/resolve/main/config.json
-curl -L -o data/indobert-base-uncased/vocab.txt \
-    https://huggingface.co/indobenchmark/indobert-base-p2/resolve/main/vocab.txt
+# echo "Downloading IndoBert Base Uncased."
+# mkdir -p data/indobert-base-uncased
+# curl -L -o data/indobert-base-uncased/pytorch_model.bin \
+#     https://huggingface.co/indobenchmark/indobert-base-p2/resolve/main/pytorch_model.bin 
+# curl -L -o data/indobert-base-uncased/bert_config.json \
+#     https://huggingface.co/indobenchmark/indobert-base-p2/resolve/main/config.json
+# curl -L -o data/indobert-base-uncased/vocab.txt \
+#     https://huggingface.co/indobenchmark/indobert-base-p2/resolve/main/vocab.txt
 
 # echo "Downloading IndoBert Large Uncased.P1"
 # mkdir -p data/indobert-large-uncased-p1
@@ -45,19 +45,19 @@ curl -L -o data/indobert-base-uncased/vocab.txt \
 # curl -L -o data/indobert-large-uncased-p1/vocab.txt \
 #     https://huggingface.co/indobenchmark/indobert-large-p1/resolve/main/vocab.txt
 
-# echo "Downloading IndoBert Large Uncased.P2"
-# mkdir -p data/indobert-large-uncased
-# curl -L -o data/indobert-large-uncased/pytorch_model.bin \
-#     https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/pytorch_model.bin 
-# curl -L -o data/indobert-large-uncased/bert_config.json \
-#     https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/config.json
-# curl -L -o data/indobert-large-uncased/vocab.txt \
-#     https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/vocab.txt
+echo "Downloading IndoBert Large Uncased.P2"
+mkdir -p data/indobert-large-uncased
+curl -L -o data/indobert-large-uncased/pytorch_model.bin \
+    https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/pytorch_model.bin 
+curl -L -o data/indobert-large-uncased/bert_config.json \
+    https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/config.json
+curl -L -o data/indobert-large-uncased/vocab.txt \
+    https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/vocab.txt
 
-# echo "Downloading glove 840B"
-# mkdir -p data/glove
-# curl -L -o data/glove/glove.840B.300d.zip \
-#     http://nlp.stanford.edu/data/wordvecs/glove.840B.300d.zip
+echo "Downloading glove 840B"
+mkdir -p data/glove
+curl -L -o data/glove/glove.840B.300d.zip \
+    http://nlp.stanford.edu/data/wordvecs/glove.840B.300d.zip
 
 # echo "Downloading glove Indo 4B"
 # mkdir -p data/glove
@@ -66,7 +66,8 @@ curl -L -o data/indobert-base-uncased/vocab.txt \
 
 echo "Downloading evaluation tools."
 mkdir -p tools
-git clone https://github.com/ChunchuanLv/amr-evaluation-tool-enhanced.git tools/amr-evaluation-tool-enhanced
+# Using banditelol's fork to accomodate raw match output (instead of calculated P, R, F output)
+git clone https://github.com/banditelol/amr-evaluation-tool-enhanced.git tools/amr-evaluation-tool-enhanced
 
 echo "Download Utility Folder for Datasets."
 mkdir -p data/AMR
