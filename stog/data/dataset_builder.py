@@ -1,5 +1,9 @@
+# Last edited: 15/08/2022
+# Edited by: Muhammad Firas
+
 import os
 import argparse
+import json
 
 from stog.utils.params import Params
 from stog.utils import logging
@@ -21,7 +25,8 @@ def load_dataset_reader(dataset_type, *args, **kwargs):
                 decoder_tokens=SingleIdTokenIndexer(namespace="decoder_token_ids"),
                 decoder_characters=TokenCharactersIndexer(namespace="decoder_token_characters")
             ),
-            word_splitter=kwargs.get('word_splitter', None)
+            word_splitter=kwargs.get('word_splitter', None),
+            lm=kwargs.get('lm', None)
         )
 
     else:

@@ -1,3 +1,5 @@
+# Last edited: 15/08/2022
+# Edited by: Muhammad Firas
 
 from typing import Dict, List, Tuple
 import logging
@@ -15,6 +17,7 @@ from stog.data.instance import Instance
 from stog.data.token_indexers import TokenIndexer, SingleIdTokenIndexer
 from stog.data.tokenizers import Token
 from stog.data.tokenizers.bert_tokenizer import AMRBertTokenizer
+from stog.data.tokenizers.t5_tokenizer import AMRT5Tokenizer
 from stog.utils.checks import ConfigurationError
 from stog.utils.string import START_SYMBOL, END_SYMBOL
 
@@ -32,29 +35,36 @@ class AbstractMeaningRepresentationDatasetReader(DatasetReader):
                  word_splitter = None,
                  lazy: bool = False,
                  skip_first_line: bool = True,
-                 evaluation: bool = False
+                 evaluation: bool = False,
+                 lm="bert"
                  ) -> None:
 
         super().__init__(lazy=lazy)
         self._token_indexers = token_indexers or {'tokens': SingleIdTokenIndexer()}
         if word_splitter is not None:
-            self._word_splitter = AMRBertTokenizer.from_pretrained(
-                word_splitter, do_lower_case=False)
+            if lm == "bert":
+                self._word_splitter = AMRBertTokenizer.from_pretrained(word_splitter, do_lower_case=False)
+                self.lm_oov_id = 100
+            elif lm == "t5":
+                self._word_splitter = AMRT5Tokenizer.from_pretrained(word_splitter)
+                self.lm_oov_id = 2
         else:
             self._word_splitter = None
         self._skip_first_line = skip_first_line
         self._evaluation = evaluation
+        self.lm = lm
 
-        self._number_bert_ids = 0
-        self._number_bert_oov_ids = 0
+        self._number_lm_ids = 0
+        self._number_lm_oov_ids = 0
         self._number_non_oov_pos_tags = 0
         self._number_pos_tags = 0
 
     def report_coverage(self):
-        if self._number_bert_ids != 0:
-            logger.info('BERT OOV  rate: {0:.4f} ({1}/{2})'.format(
-                self._number_bert_oov_ids / self._number_bert_ids,
-                self._number_bert_oov_ids, self._number_bert_ids
+        if self._number_lm_ids != 0:
+            logger.info('{3} OOV  rate: {0:.4f} ({1}/{2})'.format(
+                self._number_lm_oov_ids / self._number_lm_ids,
+                self._number_lm_oov_ids, self._number_lm_ids,
+                self.lm.upper(),
             ))
         if self._number_non_oov_pos_tags != 0:
             logger.info('POS tag coverage: {0:.4f} ({1}/{2})'.format(
@@ -93,9 +103,9 @@ class AbstractMeaningRepresentationDatasetReader(DatasetReader):
 
         if list_data['src_token_ids'] is not None:
             fields['src_token_ids'] = ArrayField(list_data['src_token_ids'])
-            self._number_bert_ids += len(list_data['src_token_ids'])
-            self._number_bert_oov_ids += len(
-                [bert_id for bert_id in list_data['src_token_ids'] if bert_id == 100])
+            self._number_lm_ids += len(list_data['src_token_ids'])
+            self._number_lm_oov_ids += len(
+                [lm_id for lm_id in list_data['src_token_ids'] if lm_id == self.lm_oov_id])
 
         if list_data['src_token_subword_index'] is not None:
             fields['src_token_subword_index'] = ArrayField(

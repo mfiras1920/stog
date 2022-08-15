@@ -1,3 +1,6 @@
+# Last edited: 15/08/2022
+# Edited by: Muhammad Firas
+
 from typing import List
 import json
 
@@ -114,10 +117,11 @@ class Predictor(Registrable):
             predictor_name = DEFAULT_PREDICTORS[model_type]
 
         word_splitter = None
-        if config['model'].get('use_bert', False):
+        if config['model'].get('use_transformer', False):
             word_splitter=config['data'].get('word_splitter', None)
+            lm=config['data'].get('lm', None)
         dataset_reader = load_dataset_reader(
-            config["data"]["data_type"], word_splitter=word_splitter)
+            config["data"]["data_type"], word_splitter=word_splitter, lm=lm)
         if hasattr(dataset_reader, 'set_evaluation'):
             dataset_reader.set_evaluation()
 

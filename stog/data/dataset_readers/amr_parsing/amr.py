@@ -1,3 +1,6 @@
+# Last edited: 15/08/2022
+# Edited by: Muhammad Firas
+
 import re
 import json
 from collections import defaultdict, Counter
@@ -497,7 +500,7 @@ class AMRGraph(penman.Graph):
 
 
 
-    def get_list_data(self, amr, bos=None, eos=None, bert_tokenizer=None, max_tgt_length=None):
+    def get_list_data(self, amr, bos=None, eos=None, lm_tokenizer=None, max_tgt_length=None):
         node_list = self.get_list_node()
 
         tgt_tokens = []
@@ -614,8 +617,8 @@ class AMRGraph(penman.Graph):
             print(src_pos_tags)
             raise e
 
-        if bert_tokenizer is not None:
-            src_token_ids, src_token_subword_index = bert_tokenizer.tokenize(src_tokens, True)
+        if lm_tokenizer is not None:
+            src_token_ids, src_token_subword_index = lm_tokenizer.tokenize(src_tokens, True)
             # print("token ids")
             # print(src_token_ids)
 
