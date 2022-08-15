@@ -3,10 +3,10 @@
 # Device-sensitive parameters
 amr_data_dir: &amr_data_dir data/AMR/amr_id_2.0
 glove: &glove data/glove/glove.840B.300d.zip
-pretrained_model_dir: &pretrained_model_dir data/indobert-large-uncased
-hidden_size: &hidden_size 1024 #base: 768, large:1024
-word_splitter: &word_splitter data/indobert-large-uncased/vocab.txt
-serialization_dir: &serialization_dir ckpt-amr-id-2.0-large-best-rerun
+pretrained_model_dir: &pretrained_model_dir data/indot5-base
+hidden_size: &hidden_size 768 #base: 768, large:1024
+word_splitter: &word_splitter data/indot5-base/spiece.model
+serialization_dir: &serialization_dir ckpt-amr-id-2.0-indot5-base
 dev_data: &dev_data data/AMR/amr_id_2.0/dev.txt.features.preproc
 eval_script: &eval_script scripts\eval_test.bat
 
@@ -18,7 +18,7 @@ model:
   use_coverage: True
   use_aux_encoder: False
   use_transformer: True
-  lm: &lm 'bert'
+  lm: &lm 't5'
 
   transformer:
     pretrained_model_dir: *pretrained_model_dir
@@ -137,6 +137,7 @@ model:
     eval_script: *eval_script
     smatch_dir: tools/amr-evaluation-tool-enhanced
     word_splitter: *word_splitter
+    lm: *lm 
 
 
 # Vocabulary

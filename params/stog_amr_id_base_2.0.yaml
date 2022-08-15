@@ -16,6 +16,7 @@ model:
   use_coverage: True
   use_aux_encoder: False
   use_bert: True
+  lm: &lm 'bert'
 
   bert:
     pretrained_model_dir: *pretrained_model_dir
@@ -134,6 +135,7 @@ model:
     eval_script: scripts/eval_test.sh
     smatch_dir: tools/amr-evaluation-tool-enhanced
     word_splitter: *word_splitter
+    lm: *lm
 
 
 # Vocabulary
