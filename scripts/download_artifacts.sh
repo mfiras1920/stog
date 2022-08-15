@@ -45,14 +45,32 @@ set -e
 # curl -L -o data/indobert-large-uncased-p1/vocab.txt \
 #     https://huggingface.co/indobenchmark/indobert-large-p1/resolve/main/vocab.txt
 
-echo "Downloading IndoBert Large Uncased.P2"
-mkdir -p data/indobert-large-uncased
-curl -L -o data/indobert-large-uncased/pytorch_model.bin \
-    https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/pytorch_model.bin 
-curl -L -o data/indobert-large-uncased/bert_config.json \
-    https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/config.json
-curl -L -o data/indobert-large-uncased/vocab.txt \
-    https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/vocab.txt
+# echo "Downloading IndoBert Large Uncased.P2"
+# mkdir -p data/indobert-large-uncased
+# curl -L -o data/indobert-large-uncased/pytorch_model.bin \
+#     https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/pytorch_model.bin 
+# curl -L -o data/indobert-large-uncased/bert_config.json \
+#     https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/config.json
+# curl -L -o data/indobert-large-uncased/vocab.txt \
+#     https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/vocab.txt
+
+# echo "Downloading IndoT5 base"
+# mkdir -p data/indot5-base
+# curl -L -o data/indot5-base/pytorch_model.bin \
+#     https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/pytorch_model.bin 
+# curl -L -o data/indot5-base/config.json \
+#     https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/config.json
+# curl -L -o data/indot5-base/spiece.model \
+#     https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/spiece.model
+
+echo "Downloading IndoT5 large"
+mkdir -p data/indot5-large
+curl -L -o data/indot5-large/pytorch_model.bin \
+    https://huggingface.co/Wikidepia/IndoT5-large/resolve/main/pytorch_model.bin 
+curl -L -o data/indot5-large/config.json \
+    https://huggingface.co/Wikidepia/IndoT5-large/resolve/main/config.json
+curl -L -o data/indot5-large/spiece.model \
+    https://huggingface.co/Wikidepia/IndoT5-large/resolve/main/spiece.model
 
 echo "Downloading glove 840B"
 mkdir -p data/glove
