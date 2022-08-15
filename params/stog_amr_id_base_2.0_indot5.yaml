@@ -8,7 +8,7 @@ hidden_size: &hidden_size 768 #base: 768, large:1024
 word_splitter: &word_splitter data/indot5-base/spiece.model
 serialization_dir: &serialization_dir ckpt-amr-id-2.0-indot5-base
 dev_data: &dev_data data/AMR/amr_id_2.0/dev.txt.features.preproc
-eval_script: &eval_script scripts\eval_test.bat
+eval_script: &eval_script scripts/eval_test.sh
 
 # Model parameters
 model:
