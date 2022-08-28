@@ -54,14 +54,23 @@ set -e
 # curl -L -o data/indobert-large-uncased/vocab.txt \
 #     https://huggingface.co/indobenchmark/indobert-large-p2/resolve/main/vocab.txt
 
-echo "Downloading IndoT5 base"
-mkdir -p data/indot5-base
-curl -L -o data/indot5-base/pytorch_model.bin \
-    https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/pytorch_model.bin 
-curl -L -o data/indot5-base/config.json \
-    https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/config.json
-curl -L -o data/indot5-base/spiece.model \
-    https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/spiece.model
+echo "Downloading IndoT5 small"
+mkdir -p data/indot5-small
+curl -L -o data/indot5-small/pytorch_model.bin \
+    https://huggingface.co/Wikidepia/IndoT5-small/resolve/main/pytorch_model.bin 
+curl -L -o data/indot5-small/config.json \
+    https://huggingface.co/Wikidepia/IndoT5-small/resolve/main/config.json
+curl -L -o data/indot5-small/spiece.model \
+    https://huggingface.co/Wikidepia/IndoT5-small/resolve/main/spiece.model
+
+# echo "Downloading IndoT5 base"
+# mkdir -p data/indot5-base
+# curl -L -o data/indot5-base/pytorch_model.bin \
+#     https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/pytorch_model.bin 
+# curl -L -o data/indot5-base/config.json \
+#     https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/config.json
+# curl -L -o data/indot5-base/spiece.model \
+#     https://huggingface.co/Wikidepia/IndoT5-base/resolve/main/spiece.model
 
 # echo "Downloading IndoT5 large"
 # mkdir -p data/indot5-large
@@ -71,6 +80,15 @@ curl -L -o data/indot5-base/spiece.model \
 #     https://huggingface.co/Wikidepia/IndoT5-large/resolve/main/config.json
 # curl -L -o data/indot5-large/spiece.model \
 #     https://huggingface.co/Wikidepia/IndoT5-large/resolve/main/spiece.model
+
+# echo "Downloading mT5 large"
+# mkdir -p data/mt5-large
+# curl -L -o data/mt5-large/pytorch_model.bin \
+#     https://huggingface.co/google/mt5-large/resolve/main/pytorch_model.bin 
+# curl -L -o data/mt5-large/config.json \
+#     https://huggingface.co/google/mt5-large/resolve/main/config.json
+# curl -L -o data/mt5-large/spiece.model \
+#     https://huggingface.co/google/mt5-large/resolve/main/spiece.model
 
 echo "Downloading glove 840B"
 mkdir -p data/glove
