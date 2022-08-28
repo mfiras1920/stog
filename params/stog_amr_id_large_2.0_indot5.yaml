@@ -137,7 +137,7 @@ model:
     eval_script: *eval_script
     smatch_dir: tools/amr-evaluation-tool-enhanced
     word_splitter: *word_splitter
-
+    lm: *lm
 
 # Vocabulary
 vocab:
