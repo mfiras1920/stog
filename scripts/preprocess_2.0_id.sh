@@ -20,13 +20,13 @@ test_data=${data_dir}/test.txt.features
 # printf "Done.`date`\n\n"
 
 printf "Recategorizing subgraphs...`date`\n"
-python -u -m stog.data.dataset_readers.amr_parsing.preprocess.recategorizer \
+python3 -u -m stog.data.dataset_readers.amr_parsing.preprocess.recategorizer \
     --amr_train_file ${train_data} \
     --dump_dir ${util_dir} \
     --amr_files ${train_data} ${dev_data}
 printf "Anonymizing subgraph    \n"
     
-python -u -m stog.data.dataset_readers.amr_parsing.preprocess.text_anonymizor \
+python3 -u -m stog.data.dataset_readers.amr_parsing.preprocess.text_anonymizor \
     --amr_file ${test_data} \
     --util_dir ${util_dir}
 printf "Done.`date`\n\n"
