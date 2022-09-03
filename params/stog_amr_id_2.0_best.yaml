@@ -8,7 +8,7 @@ hidden_size: &hidden_size 1024 #base: 768, large:1024
 word_splitter: &word_splitter data/indobert-large-uncased/vocab.txt
 serialization_dir: &serialization_dir ckpt-amr-id-2.0-large-best-rerun
 dev_data: &dev_data data/AMR/amr_id_2.0/dev.txt.features.preproc
-eval_script: &eval_script scripts\eval_test.bat
+eval_script: &eval_script scripts/eval_test.sh
 
 # Model parameters
 model:
@@ -137,6 +137,7 @@ model:
     eval_script: *eval_script
     smatch_dir: tools/amr-evaluation-tool-enhanced
     word_splitter: *word_splitter
+    lm: *lm
 
 
 # Vocabulary
