@@ -13,7 +13,7 @@ test_name=$2
 # ========== Set the above variables correctly ==========
 printf "${test_dir}/${test_name}"
 printf "Expanding nodes...`date`\n"
-python -u -m stog.data.dataset_readers.amr_parsing.postprocess.expander \
+python3 -u -m stog.data.dataset_readers.amr_parsing.postprocess.expander \
     --amr_files ${test_dir}/${test_name} \
     --util_dir ${util_dir}
 printf "Done.`date`\n\n"
