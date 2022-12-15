@@ -2,7 +2,7 @@
 
 # Device-sensitive parameters
 amr_data_dir: &amr_data_dir data/AMR/amr_id_2.0
-glove: &glove data/glove/glove.840B.300d.zip
+glove: &glove data/glove/glove.id.4B.300d.zip
 pretrained_model_dir: &pretrained_model_dir data/indobert-large-uncased
 hidden_size: &hidden_size 1024 #base: 768, large:1024
 word_splitter: &word_splitter data/indobert-large-uncased/vocab.txt
